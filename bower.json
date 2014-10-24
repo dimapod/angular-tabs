@@ -1,0 +1,19 @@
+{
+  "name": "angular-tabs",
+  "main": [
+    "dist/**/*.js",
+    "dist/**/*.css"
+  ],
+  "ignore": [
+    "test",
+    "templates"
+  ],
+  "private": "false",
+  "devDependencies": {
+    "angular": "~1.3.0",
+    "angular-mocks": "~1.3.0",
+    "jquery": "1.11.1"
+  },
+  "dependencies": {
+  }
+}

@@ -124,6 +124,7 @@ function $uiTabsProvider() {
             cleanTabScope(tab);
             TABS.arr.splice(TABS.arr.indexOf(tab), 1);
             delete TABS.map[id];
+            $rootScope.$broadcast('$tabRemoveSuccess', id);
         };
 
         /**
@@ -264,10 +265,20 @@ function tabViewFactory($uiTabs, $anchorScroll, $animate) {
                 currentElement,
                 previousElement,
                 autoScrollExp = attr.autoscroll,
-                onloadExp = attr.onload || '';
+                onloadExp = attr.onload || '',
+                elems = {};
 
             scope.$on('$tabChangeSuccess', update);
+            scope.$on('$tabRemoveSuccess', remove);
             update();
+
+            function remove(event, id) {
+                var elem = elems[id];
+                if (elem) {
+                    elem.removeData('$$id')
+                    cleanupLastView()
+                }
+            }
 
             function cleanupLastView() {
                 if (previousElement) {
@@ -275,16 +286,29 @@ function tabViewFactory($uiTabs, $anchorScroll, $animate) {
                     previousElement = null;
                 }
                 if (currentElement) {
-                    $animate.leave(currentElement, function () {
-                        previousElement = null;
-                    });
-                    previousElement = currentElement;
-                    currentElement = null;
+                    var id = currentElement.data('$$id');
+                    if (id) {
+                        $animate.addClass(currentElement, 'ng-hide');
+                    } else {
+                        $animate.leave(currentElement, function () {
+                            previousElement = null;
+                        });
+                        previousElement = currentElement;
+                        currentElement = null;
+                    }
                 }
             }
 
             function update() {
                 var currentTab = $uiTabs.getActiveTab();
+
+                var elem = elems[currentTab.$$id];
+                if (elem) {
+                    $animate.removeClass(elem, 'ng-hide');
+                    cleanupLastView();
+                    currentElement = elem;
+                    return;
+                }
 
                 var locals = currentTab && currentTab.locals,
                     template = locals && locals.$template;
@@ -292,7 +316,7 @@ function tabViewFactory($uiTabs, $anchorScroll, $animate) {
                 if (angular.isDefined(template)) {
                     var newScope = currentTab.scope || scope.$new();
 
-                    // Note: This will also link all children of ng-view that were contained in the original
+                    // Note: This will also link all children of tab-view that were contained in the original
                     // html. If that content contains controllers, ... they could pollute/change the scope.
                     // However, using ng-view on an element with additional content does not make sense...
                     // Note: We can't remove them in the cloneAttchFn of $transclude as that
@@ -304,13 +328,17 @@ function tabViewFactory($uiTabs, $anchorScroll, $animate) {
                                 $anchorScroll();
                             }
                         });
+
                         cleanupLastView();
                     });
 
                     currentTab.scope = newScope;
-
                     currentElement = clone;
-                    //currentScope = newScope;
+
+                    if (currentTab.volatile === false) {
+                        currentElement.data("$$id", currentTab.$$id);
+                        elems[currentTab.$$id] = currentElement;
+                    }
                     newScope.$emit('$tabContentLoaded');
                     newScope.$eval(onloadExp);
                 } else {

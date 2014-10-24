@@ -4,7 +4,7 @@ angular-tabs
 ============
 
 # Usage
-Add xl-ui-components in your bower.json configuration file, in the dependencies section:
+Add angular-tabs in your bower.json configuration file, in the dependencies section:
 
 `"angular-tabs": "git@github.com:dimapod/angular-tabs.git#version"`
 

@@ -12,7 +12,8 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
         .tab('tab2', {
             title: 'Tab 2',
             templateUrl: 'tabs/tab2.html',
-            controller: 'tab2Ctrl'
+            controller: 'tab2Ctrl',
+            volatile: false
         });
 
 });
@@ -20,13 +21,16 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
 angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function ($scope, $uiTabs) {
     console.log('$uiTabs', $uiTabs);
 
-    $uiTabs.addTab('tab1');
-    $uiTabs.addTab('tab2');
+    var index = 1;
+    $uiTabs.addTab('tab1', {title: 'TabType1 ' + (index++)});
+    $uiTabs.addTab('tab2', {title: 'TabType1 ' + (index++)});
 
-    var index = 3;
 
-    $scope.addTab = function() {
-        $uiTabs.addTab('tab1', {title: 'Tab '+(index++)});
+    $scope.addTabType1 = function () {
+        $uiTabs.addTab('tab1', {title: 'TabType1 ' + (index++)});
+    };
+    $scope.addTabType2 = function () {
+        $uiTabs.addTab('tab2', {title: 'TabType2 ' + (index++)});
     };
 
     $scope.tabs = $uiTabs.getTabs();

@@ -16,7 +16,7 @@ module.exports = (grunt) ->
     watch:
       styles:
         files: "#{devDir}/**/*.less"
-        tasks: ["less:dist"]
+        tasks: ["less:dev"]
 #      js:
 #        files: "#{devDir}/**/*.js"
 #        tasks: ["concat"]
@@ -54,7 +54,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "#{devDir}/styles"
-          src: "angular-tabs.less"
+          src: "*.less"
           dest: "#{devDir}/styles"
           ext: ".css"
         ]
@@ -62,7 +62,7 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "#{devDir}/styles"
-          src: "angular-tabs.less"
+          src: "*.less"
           dest: "#{distDir}/styles"
           ext: ".css"
         ]

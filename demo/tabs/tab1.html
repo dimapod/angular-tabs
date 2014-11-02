@@ -1,8 +1,16 @@
 <h3>Tab1 template</h3>
 
-<input ng-model="model">
-<input ng-model="model1">
-
 <p>
-  Binding: {{ model }}
+  Persistent data: <input ng-model="$data.model">
+</p>
+<p>
+Non Persistent data: <input ng-model="model1">
+</p>
+
+Bindings:
+<p>
+   Persistent : {{ $data.model }}
+</p>
+<p>
+  Non persistent : {{ model1 }}
 </p>

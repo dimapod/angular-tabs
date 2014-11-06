@@ -74,7 +74,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             return angular.extend(new TabDefinition(), tabDefinition, options || {});
         }
 
-        this.$get = function ($rootScope, $injector, $sce, $http, $q, $templateCache, utils) {
+        this.$get = ["$rootScope", "$injector", "$sce", "$http", "$q", "$templateCache", "utils", function ($rootScope, $injector, $sce, $http, $q, $templateCache, utils) {
 
             /**
              * Basically TABS.arr & TABS.map contain the same tabs objects
@@ -287,9 +287,9 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 selectTab: selectTab,
                 getActiveTab: getActiveTab
             };
-        };
+        }];
     })
-    .directive('tabView', function ($uiTabs, $anchorScroll, $animate) {
+    .directive('tabView', ["$uiTabs", "$anchorScroll", "$animate", function ($uiTabs, $anchorScroll, $animate) {
         return {
             restrict: 'ECA',
             terminal: true,
@@ -400,8 +400,8 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
 
             }
         };
-    })
-    .directive('tabView', function ($compile, $controller, $uiTabs) {
+    }])
+    .directive('tabView', ["$compile", "$controller", "$uiTabs", function ($compile, $controller, $uiTabs) {
         return {
             restrict: 'ECA',
             priority: -400,
@@ -429,14 +429,14 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 link(scope);
 
             },
-            controller: function ($scope) {
+            controller: ["$scope", function ($scope) {
                 this.$$getCurrentTabId = function () {
                     return $scope.$$currentTabId;
                 };
-            }
+            }]
         };
-    })
-    .directive('closeUiTab', function ($uiTabs) {
+    }])
+    .directive('closeUiTab', ["$uiTabs", function ($uiTabs) {
         return {
             restrict: 'ECA',
             priority: -400,
@@ -449,8 +449,8 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 });
             }
         };
-    })
-    .directive('closeUiTabHeader', function ($uiTabs) {
+    }])
+    .directive('closeUiTabHeader', ["$uiTabs", function ($uiTabs) {
         return {
             restrict: 'ECA',
             priority: -401,
@@ -462,9 +462,9 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 });
             }
         };
-    })
+    }])
 
-    .directive('tabHeaderItem', function ($http, $templateCache, $compile, $parse) {
+    .directive('tabHeaderItem', ["$http", "$templateCache", "$compile", "$parse", function ($http, $templateCache, $compile, $parse) {
         return {
             restrict: 'EA',
             scope: {
@@ -482,9 +482,9 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 });
             }
         };
-    })
+    }])
 
-    .directive('tabHeader', function ($uiTabs, $window, $timeout, utils) {
+    .directive('tabHeader', ["$uiTabs", "$window", "$timeout", "utils", function ($uiTabs, $window, $timeout, utils) {
         return {
             restrict: 'ECA',
             priority: -400,
@@ -552,7 +552,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 }, 200));
             }
         };
-    })
+    }])
     .constant('dropdownConfig', {
         openClass: 'open'
     })
@@ -712,7 +712,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             }
         };
     })
-    .run(function($templateCache) {
+    .run(["$templateCache", function($templateCache) {
 
         $templateCache.put('src/templates/templateItemUrl.html',
             '<span class="asterisk" ng-show="tab.$dirty">*</span>' +
@@ -723,7 +723,69 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
         $templateCache.put('src/templates/templateMenuItemUrl.html',
             '<span class="ui-tab-header-menu-item-title">{{tab.title}}</span>'
         );
+    }]);
+
+
+
+
+'use strict';
+
+angular.module('angular-tabs-utils', [])
+    .service('utils', function () {
+
+        return {
+            remove: function (array, callback) {
+                var index = -1,
+                    length = array ? array.length : 0,
+                    result = [];
+
+                while (++index < length) {
+                    var value = array[index];
+                    if (callback(value, index, array)) {
+                        result.push(value);
+                        [].splice.call(array, index--, 1);
+                        length--;
+                    }
+                }
+                return result;
+            },
+
+            filter: function (collection, callback) {
+                var result = [];
+                angular.forEach(collection, function (value, index, collection) {
+                    if (callback(value, index, collection)) {
+                        result.push(value);
+                    }
+                });
+                return result;
+            },
+
+            debounce: function (func, wait, immediate) {
+                var args,
+                    result,
+                    thisArg,
+                    timeoutId;
+
+                function delayed() {
+                    timeoutId = null;
+                    if (!immediate) {
+                        result = func.apply(thisArg, args);
+                    }
+                }
+
+                return function () {
+                    var isImmediate = immediate && !timeoutId;
+                    args = arguments;
+                    thisArg = this;
+
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(delayed, wait);
+
+                    if (isImmediate) {
+                        result = func.apply(thisArg, args);
+                    }
+                    return result;
+                };
+            }
+        };
     });
-
-
-

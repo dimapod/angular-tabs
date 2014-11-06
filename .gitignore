@@ -1,7 +1,6 @@
 bower_components
 node_modules
-test/unit/coverage
 .DS_Store
 .idea
 *.iml
-src/styles/xl-components.css
+*.log

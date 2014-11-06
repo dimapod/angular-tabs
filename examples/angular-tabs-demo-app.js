@@ -17,9 +17,11 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
         })
         .welcome({
             template: '<h2>Hello Tabs</h2>'
-        });
+        })
+        .config({
+            tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html'
+        })
     ;
-
 });
 
 angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function ($scope, $uiTabs) {

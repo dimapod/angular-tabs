@@ -410,7 +410,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     locals = current.locals;
 
                 $element.html(locals.$template);
-                $element.addClass('xl-tab-system-view');
+                $element.addClass('ui-tab-system-view');
 
                 var link = $compile($element.contents());
 
@@ -488,7 +488,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
         return {
             restrict: 'ECA',
             priority: -400,
-            template: '<div class="xl-components ui-tab-header" ui-tab-menu-dropdown>\n    <div class="ui-tab-header-wrapper">\n        <ul class="ui-tab-header-container">\n            <li class="ui-tab-header-item" ng-class="{active: tab.$selected}" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="tab" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n\n    <span class="ui-tab-header-menu-toggle" ui-tab-menu-dropdown-toggle ng-show="showTabMenuHandler"></span>\n    <div class="ui-tab-header-menu">\n        <ul>\n            <li class="ui-tab-header-menu-item" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="menu" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n</div>\n',
+            template: '<div class="ui-tab-header" ui-tab-menu-dropdown>\n    <div class="ui-tab-header-wrapper">\n        <ul class="ui-tab-header-container">\n            <li class="ui-tab-header-item" ng-class="{active: tab.$selected}" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="tab" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n\n    <span class="ui-tab-header-menu-toggle" ui-tab-menu-dropdown-toggle ng-show="showTabMenuHandler"></span>\n    <div class="ui-tab-header-menu">\n        <ul>\n            <li class="ui-tab-header-menu-item" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="menu" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n</div>\n',
             scope: {},
             controller: function() {},
             link: function (scope, elem, attr) {

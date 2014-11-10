@@ -20,16 +20,6 @@ angular.module('angular-tabs-utils', [])
                 return result;
             },
 
-            filter: function (collection, callback) {
-                var result = [];
-                angular.forEach(collection, function (value, index, collection) {
-                    if (callback(value, index, collection)) {
-                        result.push(value);
-                    }
-                });
-                return result;
-            },
-
             debounce: function (func, wait, immediate) {
                 var args,
                     result,

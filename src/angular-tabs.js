@@ -80,10 +80,10 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
              * Basically TABS.arr & TABS.map contain the same tabs objects
              */
             var TABS = {
-                arr    : [],
-                map    : {},
-                history: []
-                // TODO save currentTab
+                arr      : [],
+                map      : {},
+                history  : [],
+                activeTab: undefined
             };
 
             /**
@@ -127,17 +127,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             };
 
             var getActiveTab = function () {
-                var selectedTabs = utils.filter(TABS.map, function (tab) {
-                    return tab.$selected;
-                });
-
-                if (selectedTabs.length === 1) {
-                    return selectedTabs[0];
-                } else if (selectedTabs.length === 0) {
-                    return undefined;
-                } else if (selectedTabs.length > 1) {
-                    throw new Error('There should not be more than one selected tab at a time.');
-                }
+                return TABS.activeTab;
             };
 
             /**
@@ -172,6 +162,9 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 }
 
                 newTab.$$tabId = id || Math.random().toString(16).substr(2);
+                newTab.close = function () {
+                    removeTab(this.$$tabId);
+                };
 
                 return loadTabIntern(newTab).then(function(newTab) {
                     var find = getTab(newTab.$$tabId);
@@ -261,6 +254,8 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     }
 
                     next.$selected = true;
+
+                    TABS.activeTab = next;
                     utils.remove(TABS.history, function (id) {
                         return tabId === id;
                     });
@@ -424,14 +419,14 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     $element.children().data('$ngControllerController', controller);
                 }
 
-                scope.$$currentTabId = current.$$tabId;
+                scope.$$currentTab = current;
 
                 link(scope);
 
             },
             controller: function ($scope) {
-                this.$$getCurrentTabId = function () {
-                    return $scope.$$currentTabId;
+                this.$$getCurrentTab = function () {
+                    return $scope.$$currentTab;
                 };
             }
         };
@@ -444,7 +439,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             link: function (scope, $element, attr, tabViewCtrl) {
                 $element.on('click', function () {
                     scope.$apply(function() {
-                        $uiTabs.removeTab(tabViewCtrl.$$getCurrentTabId());
+                        tabViewCtrl.$$getCurrentTab().close();
                     });
                 });
             }
@@ -457,7 +452,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             link: function (scope, $element, attr) {
                 $element.on('click', function () {
                     scope.$apply(function() {
-                        $uiTabs.removeTab(scope.tab.$$tabId);
+                        scope.tab.close();
                     });
                 });
             }

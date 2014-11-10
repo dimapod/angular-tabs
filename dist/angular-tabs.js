@@ -80,10 +80,10 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
              * Basically TABS.arr & TABS.map contain the same tabs objects
              */
             var TABS = {
-                arr    : [],
-                map    : {},
-                history: []
-                // TODO save currentTab
+                arr      : [],
+                map      : {},
+                history  : [],
+                activeTab: undefined
             };
 
             /**
@@ -127,17 +127,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             };
 
             var getActiveTab = function () {
-                var selectedTabs = utils.filter(TABS.map, function (tab) {
-                    return tab.$selected;
-                });
-
-                if (selectedTabs.length === 1) {
-                    return selectedTabs[0];
-                } else if (selectedTabs.length === 0) {
-                    return undefined;
-                } else if (selectedTabs.length > 1) {
-                    throw new Error('There should not be more than one selected tab at a time.');
-                }
+                return TABS.activeTab;
             };
 
             /**
@@ -172,6 +162,9 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 }
 
                 newTab.$$tabId = id || Math.random().toString(16).substr(2);
+                newTab.close = function () {
+                    removeTab(this.$$tabId);
+                };
 
                 return loadTabIntern(newTab).then(function(newTab) {
                     var find = getTab(newTab.$$tabId);
@@ -261,6 +254,8 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     }
 
                     next.$selected = true;
+
+                    TABS.activeTab = next;
                     utils.remove(TABS.history, function (id) {
                         return tabId === id;
                     });
@@ -410,7 +405,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     locals = current.locals;
 
                 $element.html(locals.$template);
-                $element.addClass('xl-tab-system-view');
+                $element.addClass('ui-tab-system-view');
 
                 var link = $compile($element.contents());
 
@@ -424,14 +419,14 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     $element.children().data('$ngControllerController', controller);
                 }
 
-                scope.$$currentTabId = current.$$tabId;
+                scope.$$currentTab = current;
 
                 link(scope);
 
             },
             controller: ["$scope", function ($scope) {
-                this.$$getCurrentTabId = function () {
-                    return $scope.$$currentTabId;
+                this.$$getCurrentTab = function () {
+                    return $scope.$$currentTab;
                 };
             }]
         };
@@ -444,7 +439,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             link: function (scope, $element, attr, tabViewCtrl) {
                 $element.on('click', function () {
                     scope.$apply(function() {
-                        $uiTabs.removeTab(tabViewCtrl.$$getCurrentTabId());
+                        tabViewCtrl.$$getCurrentTab().close();
                     });
                 });
             }
@@ -457,7 +452,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             link: function (scope, $element, attr) {
                 $element.on('click', function () {
                     scope.$apply(function() {
-                        $uiTabs.removeTab(scope.tab.$$tabId);
+                        scope.tab.close();
                     });
                 });
             }
@@ -488,7 +483,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
         return {
             restrict: 'ECA',
             priority: -400,
-            template: '<div class="xl-components ui-tab-header" ui-tab-menu-dropdown>\n    <div class="ui-tab-header-wrapper">\n        <ul class="ui-tab-header-container">\n            <li class="ui-tab-header-item" ng-class="{active: tab.$selected}" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="tab" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n\n    <span class="ui-tab-header-menu-toggle" ui-tab-menu-dropdown-toggle ng-show="showTabMenuHandler"></span>\n    <div class="ui-tab-header-menu">\n        <ul>\n            <li class="ui-tab-header-menu-item" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="menu" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n</div>\n',
+            template: '<div class="ui-tab-header" ui-tab-menu-dropdown>\n    <div class="ui-tab-header-wrapper">\n        <ul class="ui-tab-header-container">\n            <li class="ui-tab-header-item" ng-class="{active: tab.$selected}" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="tab" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n\n    <span class="ui-tab-header-menu-toggle" ui-tab-menu-dropdown-toggle ng-show="showTabMenuHandler"></span>\n    <div class="ui-tab-header-menu">\n        <ul>\n            <li class="ui-tab-header-menu-item" data-ng-repeat="tab in tabs" data-ng-click="selectTab(tab, $index)">\n                <span tab-header-item type="menu" tab="tab" index="$index"></span>\n            </li>\n        </ul>\n    </div>\n</div>\n',
             scope: {},
             controller: function() {},
             link: function (scope, elem, attr) {
@@ -747,16 +742,6 @@ angular.module('angular-tabs-utils', [])
                         length--;
                     }
                 }
-                return result;
-            },
-
-            filter: function (collection, callback) {
-                var result = [];
-                angular.forEach(collection, function (value, index, collection) {
-                    if (callback(value, index, collection)) {
-                        result.push(value);
-                    }
-                });
                 return result;
             },
 

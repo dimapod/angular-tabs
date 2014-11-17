@@ -7,11 +7,13 @@ ngAnnotate  = require("gulp-ng-annotate")
 plumber     = require("gulp-plumber")
 runSequence = require("run-sequence")
 minifyCSS   = require("gulp-minify-css")
+karma       = require('gulp-karma')
 rename      = require("gulp-rename")
 
 sources =
-  less: "src/styles/*.less"
-  js  : "src/*.js"
+  less  : "src/styles/*.less"
+  js    : "src/*.js"
+  tests : "test/unit/*.coffee"
 
 destinations =
   root  : "dist/"
@@ -42,6 +44,17 @@ gulp.task "build-js", ->
 gulp.task "watch", ->
   gulp.watch sources.less, ["build-css"]
   gulp.watch sources.js, ["build-js"]
+
+
+gulp.task "test", ->
+  gulp.src(["bower_components/angular/angular.js", "bower_components/angular-mocks/angular-mocks.js", sources.js, sources.tests])
+    .pipe karma({
+      configFile: 'test/karma.unit.js',
+      action: 'run'
+    })
+    .on 'error', (err) ->
+      throw err
+
 
 gulp.task "build", ->
   runSequence "clean", ["build-css", "build-js"]

@@ -50,6 +50,8 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
         };
 
         this.config = function(options) {
+            TabDefinition.prototype.tabHeaderItemTemplate = options.tabHeaderItemTemplate;
+            TabDefinition.prototype.tabHeaderMenuItemTemplate = options.tabHeaderMenuItemTemplate;
             TabDefinition.prototype.tabHeaderItemTemplateUrl = options.tabHeaderItemTemplateUrl || 'src/templates/templateItemUrl.html';
             TabDefinition.prototype.tabHeaderMenuItemTemplateUrl = options.tabHeaderMenuItemTemplateUrl || 'src/templates/templateMenuItemUrl.html';
         };
@@ -208,11 +210,11 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
 
                         if (angular.isDefined(template = tab.template)) {
                             if (angular.isFunction(template)) {
-                                template = template(tab.params);
+                                template = template(tab);
                             }
                         } else if (angular.isDefined(templateUrl = tab.templateUrl)) {
                             if (angular.isFunction(templateUrl)) {
-                                templateUrl = templateUrl(tab.params);
+                                templateUrl = templateUrl(tab);
                             }
                             templateUrl = $sce.getTrustedResourceUrl(templateUrl);
                             if (angular.isDefined(templateUrl)) {
@@ -459,7 +461,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
         };
     }])
 
-    .directive('tabHeaderItem', ["$http", "$templateCache", "$compile", "$parse", function ($http, $templateCache, $compile, $parse) {
+    .directive('tabHeaderItem', ["$http", "$templateCache", "$compile", "$sce", "$q", function ($http, $templateCache, $compile, $sce, $q) {
         return {
             restrict: 'EA',
             scope: {
@@ -470,11 +472,44 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
 
             link: function (scope, element, attrs) {
 
-                var tplUrl = attrs.type === 'menu' ? scope.tab.tabHeaderMenuItemTemplateUrl : scope.tab.tabHeaderItemTemplateUrl;
+                var template, templateUrl;
+                if (attrs.type === 'menu') {
+                    template = scope.tab.tabHeaderMenuItemTemplate;
+                    templateUrl = scope.tab.tabHeaderMenuItemTemplateUrl;
+                } else {
+                    template = scope.tab.tabHeaderItemTemplate;
+                    templateUrl = scope.tab.tabHeaderItemTemplateUrl;
+                }
 
-                $http.get(tplUrl, {cache: $templateCache}).success(function (tplContent) {
+                if (angular.isDefined(template)) {
+                    if (angular.isFunction(template)) {
+                        template = template(tab);
+                    }
+                } else if (angular.isDefined(templateUrl)) {
+                    if (angular.isFunction(templateUrl)) {
+                        templateUrl = templateUrl(tab);
+                    }
+                    templateUrl = $sce.getTrustedResourceUrl(templateUrl);
+                    if (angular.isDefined(templateUrl)) {
+                        //tab.loadedTemplateUrl = templateUrl;
+                        template = $http.get(templateUrl, {cache: $templateCache}).
+                            then(function (response) {
+                                return response.data;
+                            });
+                    }
+                }
+
+                $q.when(template).then(function(tplContent) {
                     element.replaceWith($compile(tplContent.trim())(scope));
                 });
+/* xxxx
+                $http.get(tplUrl, {cache: $templateCache}).success(function (tplContent) {
+
+
+
+
+                    element.replaceWith($compile(tplContent.trim())(scope));
+                });*/
             }
         };
     }])

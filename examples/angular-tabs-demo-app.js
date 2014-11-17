@@ -19,9 +19,9 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
             template: '<h2>Hello Tabs</h2>'
         })
         .config({
-            tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html'
-        })
-    ;
+            tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html',
+            tabHeaderMenuItemTemplate: '<span>{{tab.title}}</span>'
+        });
 });
 
 angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function ($scope, $uiTabs) {
@@ -29,7 +29,7 @@ angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function (
 
     var index = 1;
 
-
+    $uiTabs.addTab('tab1', {title: 'TabType1 ' + (index++)});
 
     $scope.addTabType1 = function () {
         $uiTabs.addTab('tab1', {title: 'TabType1 ' + (index++)});
@@ -39,5 +39,4 @@ angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function (
     };
 
     $scope.tabs = $uiTabs.getTabs();
-
 });

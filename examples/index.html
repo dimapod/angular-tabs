@@ -4,7 +4,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>Angular Tabs</title>
 
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700">
   <link rel="stylesheet" href="../bower_components/normalize.css/normalize.css">
   <link rel="stylesheet" href="../dist/styles/default.css">
   <link rel="stylesheet" href="angular-tabs-demo.css">
@@ -19,18 +18,25 @@
 
 <body>
 
-<h1>Angular Tabs Demo</h1>
+<main>
+  <h1>Angular Tabs Demo</h1>
 
-<div>
-  <button ng-click="addTabType1()">Add tab type 1</button>
-  <button ng-click="addTabType2()">Add tab type 2</button>
-</div>
+  <header>
+    <button ng-click="addTabType1()">Add tab type 1</button>
+    <button ng-click="addTabType2()">Add tab type 2</button>
+  </header>
 
-<div tab-header></div>
-<div tab-view></div>
+  <section class="angular-tabs-example">
+    <div tab-header></div>
+    <div tab-view></div>
+  </section>
 
-<p>
-  {{tabs}}
-</p>
+  <section class="debug">
+    <h4>Debug</h4>
+    <p>{{tabs}}</p>
+  </section>
+</main>
+
+
 </body>
 </html>

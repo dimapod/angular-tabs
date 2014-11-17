@@ -11,6 +11,7 @@
   overflow: hidden;
   height: 24px;
   position: relative;
+  border-bottom: 1px solid #eeeeee;
 }
 .ui-tab-header .ui-tab-header-container {
   margin: 0;
@@ -36,6 +37,7 @@
   cursor: pointer;
   margin-right: 2px;
   position: relative;
+  border-radius: 3px 3px 0 0;
 }
 .ui-tab-header .ui-tab-header-container .ui-tab-header-item .ui-tab-header-close {
   width: 24px;

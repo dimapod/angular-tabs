@@ -11,7 +11,7 @@ angular.module('angular-tabs-utils', [])
 
                 while (++index < length) {
                     var value = array[index];
-                    if (callback(value, index, array)) {
+                    if (callback && callback(value, index, array)) {
                         result.push(value);
                         [].splice.call(array, index--, 1);
                         length--;

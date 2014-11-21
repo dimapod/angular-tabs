@@ -50,7 +50,7 @@ gulp.task "test", ->
   gulp.src(["bower_components/angular/angular.js", "bower_components/angular-mocks/angular-mocks.js", sources.js, sources.tests])
     .pipe karma({
       configFile: 'test/karma.unit.js',
-      action: 'run'
+      action: 'watch',
     })
     .on 'error', (err) ->
       throw err

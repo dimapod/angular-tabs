@@ -1,0 +1,43 @@
+body {
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+main {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 2em;
+}
+
+main > header {
+    margin: 1em 0;
+}
+
+main > header > button {
+    box-shadow:inset 0px 1px 0px 0px #54a3f7;
+    background-color:#007dc1;
+    border-radius:3px;
+    border:1px solid #124d77;
+    cursor:pointer;
+    color:#ffffff;
+    padding:6px 24px;
+    text-shadow:0px 1px 0px #154682;
+}
+main > header > button:hover {
+    background-color:#0061a7;
+}
+
+.angular-tabs-example {
+    border: 1px solid #ddd;
+    border-radius: 4px 4px 0 0;
+
+    position: relative;
+    padding: 15px 15px 15px;
+    margin-bottom: 15px;
+}
+
+.debug {
+    background: #D3D3D3;
+    padding: 1em;
+    border-radius: 4px;
+}

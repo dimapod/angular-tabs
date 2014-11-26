@@ -13,7 +13,7 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
             title: 'Tab 2',
             templateUrl: 'tabs/tab2.html',
             controller: 'tab2Ctrl',
-            $volatile: false
+            volatile: false
         })
         .welcome({
             template: '<h2>Hello Tabs</h2>'

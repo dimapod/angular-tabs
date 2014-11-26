@@ -34,9 +34,16 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
          * @returns          {Object} self
          */
         this.tab = function (type, definition) {
-            tabDefinitions[type] = angular.extend(
+            var tabDefinition = angular.extend(
                 {}, definition
             );
+
+            if (tabDefinition.volatile !== undefined) {
+                tabDefinition.$volatile = !!tabDefinition.volatile;
+                delete tabDefinition.volatile;
+            }
+
+            tabDefinitions[type] = tabDefinition;
             return this;
         };
 
@@ -73,7 +80,11 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 return undefined;
             }
 
-            return angular.extend(new TabDefinition(), tabDefinition, options || {});
+            var tabDefInstance = angular.extend(new TabDefinition(), tabDefinition, options || {});
+            if (!!tabDefInstance.template && !!options && !!options.templateUrl) {
+                delete tabDefInstance.template;
+            }
+            return tabDefInstance;
         }
 
         this.$get = function ($rootScope, $injector, $sce, $http, $q, $templateCache, utils) {

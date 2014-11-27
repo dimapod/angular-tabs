@@ -1,5 +1,8 @@
 Live Demo - http://dimapod.github.io/angular-tabs
 
+
+[ ![Codeship Status for dimapod/angular-tabs](https://codeship.com/projects/c88d0ef0-5861-0132-43f2-2264a2250d8e/status)](https://codeship.com/projects/50058)
+
 angular-tabs
 ============
 

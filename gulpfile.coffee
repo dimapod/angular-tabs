@@ -72,7 +72,7 @@ gulp.task "deploy", ->
   runSequence "build", "ghPages"
 
 gulp.task "build", (callback) ->
-  runSequence "clean", ["build-css", "build-js"], "karma", callback
+  runSequence "clean", ["build-css", "build-js"], callback
 
 gulp.task "serve", ->
   runSequence "build", "watch"

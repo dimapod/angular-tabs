@@ -2,8 +2,8 @@ Live [Demo](http://dimapod.github.io/angular-tabs)
 
 [ ![Codeship Status for dimapod/angular-tabs](https://codeship.com/projects/c88d0ef0-5861-0132-43f2-2264a2250d8e/status)](https://codeship.com/projects/50058)
 
-angular-tabs
-============
+angular-ui-tabs
+===============
 
 Angular Tabs is an AngularJS module that add real tab system to your application.
 
@@ -16,13 +16,13 @@ Angular Tabs is an AngularJS module that add real tab system to your application
 ##Getting Started
 **(1)** Install via Bower.
 ```bash
-$ bower install git@github.com:dimapod/angular-tabs.git
+$ bower install angular-ui-tabs --save
 ```
 
 **(2)** Include `angular-tabs.js` (or `angular-tabs.min.js`) in your `index.html`, after including Angular itself.
 
 ```html
-  <script src="../bower_components/angular-tabs/angular-tabs.min.js"></script>
+  <script src="../bower_components/angular-ui-tabs/angular-tabs.min.js"></script>
 ```
 
 **(3)** Include one of CSS themes.

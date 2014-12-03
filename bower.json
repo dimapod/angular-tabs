@@ -1,5 +1,5 @@
 {
-    "name": "angular-tabs",
+    "name": "angular-ui-tabs",
     "main": [
         "dist/angular-tabs.min.js",
         "dist/styles/**/*.css"

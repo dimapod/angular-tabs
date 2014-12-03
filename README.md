@@ -5,7 +5,7 @@ Live [Demo](http://dimapod.github.io/angular-tabs)
 angular-tabs
 ============
 
-Angular Tabs is a AngularJS module that add real tab system to your application.
+Angular Tabs is an AngularJS module that add real tab system to your application.
 
 **Features**
 - Management of infinite number of tabs
@@ -37,7 +37,7 @@ var app = angular.module('app', ['angular-tabs'])
 ```
 
 
-Your are ready to go
+You are ready to go
 
 
 ##Configuration

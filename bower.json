@@ -4,7 +4,7 @@
         "dist/angular-tabs.min.js",
         "dist/styles/**/*.css"
     ],
-    "version": "0.1.1",
+    "version": "0.1.2",
     "authors": [
         "Dmytro Podyachiy",
         "Abdelhakim Bachar"

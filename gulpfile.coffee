@@ -7,10 +7,10 @@ ngAnnotate  = require("gulp-ng-annotate")
 plumber     = require("gulp-plumber")
 runSequence = require("run-sequence")
 minifyCSS   = require("gulp-minify-css")
-karma       = require('gulp-karma')
+karma       = require("gulp-karma")
 rename      = require("gulp-rename")
 ghPages     = require("gulp-gh-pages")
-
+tag         = require("gulp-release-tasks")(gulp);
 
 unitWatch = false
 
@@ -76,3 +76,4 @@ gulp.task "build", (callback) ->
 
 gulp.task "serve", ->
   runSequence "build", "watch"
+

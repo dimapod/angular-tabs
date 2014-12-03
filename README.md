@@ -25,7 +25,7 @@ $ bower install git@github.com:dimapod/angular-tabs.git
   <script src="../bower_components/angular-tabs/angular-tabs.min.js"></script>
 ```
 
-**(3)** Include CSS theme.
+**(3)** Include one of CSS themes.
 
 ```html
   <link rel="stylesheet" href="../bower_components/angular/styles/blue.css">
@@ -42,7 +42,7 @@ Your are ready to go
 
 ##Configuration
 
-The configuration of the tab system is done using $uiTabsProvider
+The configuration of the tab system is done using $uiTabsProvider:
 ```js
 app.config(function ($uiTabsProvider) {
     ...
@@ -51,7 +51,7 @@ app.config(function ($uiTabsProvider) {
 
 ### tab
 
-Register new tab type to the tab system.
+Register a new tab type to the tab-system.
  
 Signature: `tab(tabType, tabOptions)` 
 
@@ -75,12 +75,13 @@ $uiTabsProvider
 
 ### welcome
 
-Register welcome tab to the tab-system. 'Welcome tab' is automatically instantiated by the system and is shown when all the tabs are closed. If no 'welcome tab' is registered in the system, the empty template will be used.
+Register Welcome Tab to the tab-system. Welcome Tab is automatically instantiated by the system and is shown when all the tabs are closed. If no 'welcome tab' is registered in the system, the empty template will be used.
  
 Signature: `welcome(tabOptions)` 
 
 - `tabOptions` (Object): Welcome tab options
-The same as for tab() - see above
+
+The same as for `tab()` - see above
     
 ```js
 $uiTabsProvider
@@ -91,8 +92,9 @@ $uiTabsProvider
 
 ### onClose
 
-Injectable service, returning the function that will be called every time before tab close. The inner function should return a promise. If the promise is resolved, the tab will be closed, if rejected - tab will not be closed.
-When the `onClose` is no specified, be default, closing the tab will actually close the tab right away. 
+Injectable service, defining a function that will be called every time before user tries to close a tab. The inner function takes `tab` instance as a parameter and should return a promise. If the promise is resolved, the tab will be closed, if rejected - tab will remain in tab-system.
+
+By default, when no `onClose` method specified, closing the tab will actually close the tab right away. 
 
 Signature: `onClose(injectable)` 
 
@@ -109,7 +111,7 @@ $uiTabsProvider
 
 ### config
 
-Tab header and tab header menu templates configuration.
+Tab header items and tab header menu item templates configuration.
 
 Signature: `config(configuration)` 
 

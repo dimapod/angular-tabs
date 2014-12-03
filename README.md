@@ -147,6 +147,10 @@ $uiTabsProvider
 	`$ bower install`
 4. Install components
 	`$ gulp serve`
+5. Releasing
+	`$ gulp tag`  0.0.1 -> 0.0.2
+	`$ gulp tag --minor`  0.1.0 -> 0.2.0
+	`$ gulp tag --major`  1.0.0 -> 1.0.0
 
 ## Testing
 

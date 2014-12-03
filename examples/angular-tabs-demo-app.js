@@ -25,8 +25,6 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
 });
 
 angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function ($scope, $uiTabs) {
-    console.log('$uiTabs', $uiTabs);
-
     var index = 1;
 
     $uiTabs.addTab('tab1', {title: 'TabType1 ' + (index++)});

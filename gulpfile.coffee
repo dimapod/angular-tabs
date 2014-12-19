@@ -10,7 +10,11 @@ minifyCSS   = require("gulp-minify-css")
 karma       = require("gulp-karma")
 rename      = require("gulp-rename")
 ghPages     = require("gulp-gh-pages")
-tag         = require("gulp-release-tasks")(gulp);
+tag         = require("gulp-release-tasks")(gulp)
+connect     = require('gulp-connect')
+
+protractor  = require("gulp-protractor").protractor
+webdriver_update     = require("gulp-protractor").webdriver_update
 
 unitWatch = false
 
@@ -26,6 +30,21 @@ destinations =
 gulp.task "clean", ->
   gulp.src(destinations.root, {read: false})
     .pipe clean()
+
+gulp.task "connect", ->
+  connect.server {
+      root: '.',
+      port: 8001
+  }
+
+gulp.task "connect-test", ->
+  connect.server {
+      root: '.',
+      port: 8002
+  }
+
+gulp.task "connect-stop", ->
+  connect.serverClose()
 
 gulp.task "build-css", ->
   gulp.src sources.less
@@ -64,9 +83,21 @@ gulp.task "karma", ->
     .on 'error', (err) ->
       throw err
 
+gulp.task "webdriver_update", webdriver_update
+
 gulp.task "unit", ->
   unitWatch = true
   runSequence "karma"
+
+gulp.task "protractor", ["webdriver_update", "connect-test"], ->
+  gulp.src(['test/e2e/**/*.coffee'])
+    .pipe protractor({
+      configFile: 'test/protractor.conf.js'
+    })
+    .on 'error', (err) ->
+      throw err
+    .on 'end', ->
+      connect.serverClose()
 
 gulp.task "deploy", ->
   runSequence "build", "ghPages"
@@ -75,5 +106,12 @@ gulp.task "build", (callback) ->
   runSequence "clean", ["build-css", "build-js"], callback
 
 gulp.task "serve", ->
-  runSequence "build", "watch"
+  runSequence "build", "connect", "watch"
+
+gulp.task "e2e", ->
+  runSequence "build", "protractor"
+
+gulp.task "test", ->
+  runSequence "karma", "e2e"
+
 

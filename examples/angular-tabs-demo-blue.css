@@ -11,7 +11,7 @@
 
 input {
     color: #888;
-    width: 70%;
+    width: 40%;
     padding: 0px 0px 0px 5px;
     border: 1px solid #C5E2FF;
     background: #FBFBFB;
@@ -25,4 +25,22 @@ input {
 
 .ui-tab-system-view {
     height: 211px;
+}
+
+form div {
+    margin: 5px 0;
+}
+form label {
+    width: 110px;
+    display: inline-block;
+}
+
+div.bindings {
+    margin-top: 20px;
+    border-top: 1px solid rgb(221, 221, 221);
+    padding-top: 15px;
+}
+
+div.bindings label {
+    font-weight: 800;
 }

@@ -19,8 +19,8 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
             template: '<h2>Hello Tabs</h2>'
         })
         .config({
-            tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html',
-            tabHeaderMenuItemTemplate: '<span>{{tab.title}}</span>'
+            //tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html',
+            //tabHeaderMenuItemTemplate: '<span>{{tab.title}}</span>'
         });
 });
 

@@ -1,9 +1,16 @@
-<h3>Tab2 template</h3>
+<h3>DOM Persistent tab</h3>
 
-<p>
-  Binding: {{ model }}
-</p>
+<form>
 
-<input ng-model="model1">
+  <div>
+    <label>Data:</label> <input ng-model="model">
+  </div>
 
+</form>
 
+<div class="bindings">
+  <label>Bindings:</label>
+  <ul>
+    <li class="non-persistent"><label>Non persistent:</label> <span>{{ model }}</span></li>
+  </ul>
+</div>

@@ -19,14 +19,12 @@ angular.module('angular-tabs.demo').config(function ($uiTabsProvider) {
             template: '<h2>Hello Tabs</h2>'
         })
         .config({
-            tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html',
-            tabHeaderMenuItemTemplate: '<span>{{tab.title}}</span>'
+            //tabHeaderItemTemplateUrl: 'tabs/tab-header-item-template.html',
+            //tabHeaderMenuItemTemplate: '<span>{{tab.title}}</span>'
         });
 });
 
 angular.module('angular-tabs.demo').controller('angularTabsDemoCtrl', function ($scope, $uiTabs) {
-    console.log('$uiTabs', $uiTabs);
-
     var index = 1;
 
     $uiTabs.addTab('tab1', {title: 'TabType1 ' + (index++)});

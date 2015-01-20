@@ -156,6 +156,6 @@ $uiTabsProvider
 
 We use Karma, protractor and jshint to ensure the quality of the code.
 1. `$ gulp unit` - runs unit test
-2. `$ grunt e2e` - runs integration tests test
+2. `$ gulp e2e`  - runs integration tests test
 
 

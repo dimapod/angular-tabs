@@ -417,6 +417,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                 var current = $uiTabs.getActiveTab(),
                     locals = current.locals;
 
+                scope.$$currentTab = current;
                 $element.html(locals.$template);
                 $element.addClass('ui-tab-system-view');
 
@@ -432,10 +433,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
                     $element.children().data('$ngControllerController', controller);
                 }
 
-                scope.$$currentTab = current;
-
                 link(scope);
-
             },
             controller: function ($scope) {
                 this.$$getCurrentTab = function () {
@@ -444,7 +442,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             }
         };
     })
-    .directive('closeUiTab', function ($uiTabs) {
+    .directive('closeUiTab', function () {
         return {
             restrict: 'ECA',
             priority: -400,
@@ -458,7 +456,7 @@ angular.module('angular-tabs', ['angular-tabs-utils'])
             }
         };
     })
-    .directive('closeUiTabHeader', function ($uiTabs) {
+    .directive('closeUiTabHeader', function () {
         return {
             restrict: 'ECA',
             priority: -401,
